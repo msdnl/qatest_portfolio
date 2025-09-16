@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="qa_test.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1797"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Data_base_person" custom_title="0" dock_id="1" table="4,16:mainData_base_person"/><table title="Department_Base" custom_title="0" dock_id="2" table="4,15:mainDepartment_Base"/><dock_state state="000000ff00000000fd00000001000000020000039100000244fc0100000001fc00000000000003910000015700fffffffa000000000100000002fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000015700fffffffb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000015700ffffff000003910000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Data_base_person" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="88"/><column index="2" value="84"/><column index="3" value="106"/><column index="4" value="132"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Data_salary" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="82"/><column index="2" value="90"/><column index="3" value="133"/><column index="4" value="130"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Department_Base" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="131"/><column index="2" value="159"/><column index="3" value="90"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">CREATE TABLE Department_Base
+(
+    DepartmentID INTEGER PRIMARY KEY,
+	DepartmentName VARCHAR(50),
+	PersonID INTEGER NOT NULL,
+	FOREIGN KEY (PersonID) REFERENCES Data_base_person(PersonID) 
+);</sql><sql name="SQL 3">INSERT INTO Data_base_person
+	(Name,Surname,Data_employe)
+VALUES
+(&quot;Elena&quot;,&quot;Bogdanova&quot;,&quot;2024-04-23&quot;),
+(&quot;Oleg&quot;,&quot;Kali&quot;,&quot;2024-04-23&quot;),
+(&quot;Vanya&quot;,&quot;Ov&quot;,&quot;2024-01-30&quot;),
+(&quot;Nana&quot;,&quot;Bog&quot;,&quot;2024-02-12&quot;),
+(&quot;Ena&quot;,&quot;Mini&quot;,&quot;2023-03-11&quot;);</sql><sql name="SQL 5">CREATE TABLE Data_salary
+(
+    SalaryID INTEGER PRIMARY KEY,
+	PersonID INTEGER NOT NULL,
+	DepartmentID INTEGER NOT NULL,
+	Salary_dollars INTEGER NOT NULL,
+	FOREIGN KEY (PersonID) REFERENCES Data_base_person(PersonID), 
+	FOREIGN KEY (DepartmentID) REFERENCES Department_base(DepartmentID) 
+)
+</sql><sql name="SQL 5">SELECT PersonID,Name, Surname
+FROM Data_base_person
+WHERE (Name in (&quot;Elena&quot;,&quot;Elisa&quot;) AND Surname in (&quot;Morozova&quot;)) or (Name is NOT &quot;Crowdy&quot;);</sql><sql name="SQL 8">Select Name,Count(Name)
+From Data_base_person
+GROUP by Name;
+</sql><sql name="SQL 6">SELECT Name,Surname,Salary_dollars,DepartmentName
+FROM Data_base_person p
+JOIN Data_salary  s
+on p.PersonID = s.PersonID
+JOIN Department_Base b
+on s.DepartmentID = b.DepartmentID</sql><sql name="SQL 7">UPDATE Data_base_person 
+Set Surname = &quot;Minikuper&quot;
+Where Name = &quot;Ena&quot;</sql><sql name="SQL 8">DELETE
+FROM Data_base_person 
+WHERE Name = &quot;Nana&quot; or Surname = &quot;Bog&quot;</sql><sql name="SQL 9*">SELECT *
+FROM Data_base_person;</sql><current_tab id="0"/></tab_sql></sqlb_project>

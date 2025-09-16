@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="sql_join.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="946"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Data_Person" custom_title="0" dock_id="5" table="4,11:mainData_Person"/><dock_state state="000000ff00000000fd00000001000000020000054a00000244fc0100000002fc00000000000003910000000000fffffffa000000000100000002fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f007700730065003501000000000000054a0000015700ffffff0000054a0000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Data_Person" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="88"/><column index="2" value="131"/><column index="3" value="78"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="Position_work" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="99"/><column index="2" value="136"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">CREATE TABLE Data_Person
+(
+    personID INTEGER PRIMARY KEY,
+	Name VARCHAR(50),
+	position INTEGER NULL
+);</sql><sql name="SQL 2">CREATE TABLE Position_work
+(
+    positionID INTEGER PRIMARY KEY,
+	position_name VARCHAR(50)
+);</sql><sql name="SQL 3">INSERT INTO Data_Person
+	(Name)
+VALUES
+	(&quot;alex&quot;);
+</sql><sql name="SQL 4">INSERT INTO Position_work
+	(position_name)
+VALUES
+	(&quot;analytik&quot;);
+</sql><sql name="SQL 5">SELECT personID, Name, position_name
+FROM Data_Person
+INNER JOIN Position_work ON positionID = position;</sql><sql name="left join">SELECT personID, Name, position_name
+FROM Data_Person
+LEFT JOIN Position_work ON positionID = position;</sql><sql name="full join*">SELECT personID, Name, position_name
+FROM Data_Person
+FULL JOIN Position_work ON positionID = position;</sql><sql name="Union*">SELECT personID, Name,position_name
+FROM Data_Person
+LEFT JOIN Position_work ON positionID = position
+WHERE positionID is NULL
+UNION
+SELECT personID, Name, position_name
+FROM Data_Person
+RIGHT JOIN Position_work ON positionID = position
+WHERE position is NUll;
+</sql><sql name="SQL 10*">SELECT personID, Name, position_name
+FROM Data_Person
+RIGHT JOIN Position_work ON positionID = position
+where personID is NULL;</sql><current_tab id="6"/></tab_sql></sqlb_project>
