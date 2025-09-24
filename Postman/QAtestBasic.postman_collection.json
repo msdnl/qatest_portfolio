@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "0ffcc64a-0324-4fc3-b214-0f3d9069c74b",
+		"name": "QAtestBasic",
+		"description": "[https://petstore.swagger.io/#/](https://petstore.swagger.io/#/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27980996"
+	},
+	"item": [
+		{
+			"name": "RandomGetPetID",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let randomId = Math.floor(Math.random() * 10) + 1; // число от 1 до 100\r",
+							"pm.variables.set(\"randomPetId\", randomId);\r",
+							"console.log(\"заданное число\",randomId)\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Получаем id из переменной, которая использовалась в запросе\r",
+							"let petIdUsed = pm.variables.get(\"randomPetId\");\r",
+							"\r",
+							"// Логируем его\r",
+							"console.log(\"Случайное число, использованное в запросе (post-request):\", petIdUsed);\r",
+							"\r",
+							"// Проверяем статус-код\r",
+							"pm.test(\"Статус-код 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/pet/{{randomPetId}}",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"{{randomPetId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "StatusPetID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Проверка, что ответ успешный (2xx)\r",
+							"pm.test(\"Статус-код успешный (2xx)\", function () {\r",
+							"    pm.response.to.be.success;\r",
+							"});\r",
+							"// Проверка на 400 (Bad Request)\r",
+							"pm.test(\"Статус-код 400 (ошибка клиента)\", function () {\r",
+							"    pm.response.to.have.not.status(400);\r",
+							"});\r",
+							"// Проверка на 400 (Bad Request)\r",
+							"pm.test(\"Статус-код 500 (ошибка клиента)\", function () {\r",
+							"    pm.response.to.have.not.status(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Успешный запрос (400 или 401)\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([400, 401]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Ответ с ошибкой (4xx или 5xx)\", function () {\r",
+							"    let code = pm.response.code; // получаем статус-код\r",
+							"    pm.expect(code).to.be.at.least(400); // не меньше 400\r",
+							"    pm.expect(code).to.be.below(600);   // меньше 600\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/pet/findByStatus?status=available",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"findByStatus"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "available"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddNewPet",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let futurePetId = 934\r",
+							"pm.environment.set(\"petId\",futurePetId)\r",
+							"console.log(\"pet_id = \",pm.environment.get(\"petId\"))"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{petId}},\r\n  \"category\": {\r\n    \"id\": 4,\r\n    \"name\": \"reptiles\"\r\n  },\r\n  \"name\": \"Jorj\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"string\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/pet",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ChangeName",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 934,\r\n    \"category\": {\r\n        \"id\": 4,\r\n        \"name\": \"reptiles\"\r\n    },\r\n    \"name\": \"Jormont\",\r\n    \"photoUrls\": [\r\n        \"string\"\r\n    ],\r\n    \"tags\": [\r\n        {\r\n            \"id\": 0,\r\n            \"name\": \"string\"\r\n        }\r\n    ],\r\n    \"status\": \"available\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/pet",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/pet/{{petId}}",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"pet",
+						"{{petId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
